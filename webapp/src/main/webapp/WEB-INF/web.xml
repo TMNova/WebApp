@@ -5,12 +5,30 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/webapp_4_0.xsd"
 version="4.0">
 
 <servlet>
-  <servlet-name>MyServlet</servlet-name>
-  <servlet-class>ru.lanit.MyServlet</servlet-class>
+  <servlet-name>ServletName</servlet-name>
+  <servlet-class>ru.lanit.ServletName</servlet-class>
 </servlet>
 <servlet-mapping>
-  <servlet-name>MyServlet</servlet-name>
-  <url-pattern>/myservlet</url-pattern>
+  <servlet-name>ServletName</servlet-name>
+  <url-pattern>/servletname</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>ServletSurname</servlet-name>
+  <servlet-class>ru.lanit.ServletSurname</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>ServletSurname</servlet-name>
+  <url-pattern>/servletsurname</url-pattern>
+</servlet-mapping>
+
+<servlet>
+  <servlet-name>ServletPatronymic</servlet-name>
+  <servlet-class>ru.lanit.ServletPatronymic</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>ServletPatronymic</servlet-name>
+  <url-pattern>/servletpatronymic</url-pattern>
 </servlet-mapping>
 
 </web-app>
