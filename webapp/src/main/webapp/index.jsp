@@ -2,6 +2,9 @@
 
 <html>
 <body>
-<h2>Hello Тимур</h2>
+<form action="myservlet">
+	<input name="name">
+	<button type="submit">Отправить</button>
+</form>
 </body>
 </html>

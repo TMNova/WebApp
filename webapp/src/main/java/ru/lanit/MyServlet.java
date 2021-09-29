@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 public class MyServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String name = request.getParameter("name");
+
 		response.setContentType("text/html;charset=UTF-8");
-		response.getWriter().write("Hello Тимур");
+		response.getWriter().write("Hello " + name);
 		response.getWriter().println("</html>");
 	}
 }
