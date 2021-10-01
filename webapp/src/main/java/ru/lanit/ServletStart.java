@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 
 
-public class ServletName extends HttpServlet {
+public class ServletStart extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, javax.servlet.ServletException {
 		HttpSession session = request.getSession();
@@ -17,7 +17,7 @@ public class ServletName extends HttpServlet {
 
 		session.setAttribute("name", name);
 
-		getServletContext().getRequestDispatcher("/surname.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		
 	}
 }

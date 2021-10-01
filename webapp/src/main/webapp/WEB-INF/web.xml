@@ -4,6 +4,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/webapp_4_0.xsd"
 version="4.0">
 
+<welcome-file-list>
+    <welcome-file>ServletStart</welcome-file>
+</welcome-file-list>
+
+<servlet>
+  <servlet-name>ServletStart</servlet-name>
+  <servlet-class>ru.lanit.ServletStart</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>ServletStart</servlet-name>
+  <url-pattern>/</url-pattern>
+</servlet-mapping>
+
 <servlet>
   <servlet-name>ServletName</servlet-name>
   <servlet-class>ru.lanit.ServletName</servlet-class>
@@ -30,5 +43,19 @@ version="4.0">
   <servlet-name>ServletPatronymic</servlet-name>
   <url-pattern>/servletpatronymic</url-pattern>
 </servlet-mapping>
+
+<listener>
+  <listener-class>ru.lanit.ContextListener</listener-class>
+</listener>
+
+<filter>  
+    <filter-name>FirstFilter</filter-name>  
+    <filter-class>ru.lanit.FirstFilter</filter-class>  
+</filter>  
+  
+<filter-mapping>  
+    <filter-name>FirstFilter</filter-name>  
+    <url-pattern>/*</url-pattern>  
+</filter-mapping>  
 
 </web-app>
