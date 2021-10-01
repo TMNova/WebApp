@@ -1,13 +1,11 @@
 package ru.lanit;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class FirstFilter implements Filter {
 	@Override
@@ -24,25 +22,21 @@ public class FirstFilter implements Filter {
 		System.out.println("URL is: " + url);
 		System.out.println("JSESSIONID: " + sessionID);
 
-		ResponseWrapper responseWrapper = new ResponseWrapper((HttpServletResponse) response);
+		CharResponseWrapper charResponseWrapper = new CharResponseWrapper((HttpServletResponse) response);
+		response.setCharacterEncoding("UTF-8");
 
-		chain.doFilter(request, responseWrapper);
+		chain.doFilter(request, charResponseWrapper);
+		String htmlCode = charResponseWrapper.toString();
+		charResponseWrapper.setHeader("Content-Length", String.valueOf(htmlCode.length()));
 
-		String servletResponse = responseWrapper.toString();
+		Writer writer = new OutputStreamWriter(charResponseWrapper.getOutputStream(), StandardCharsets.UTF_8);
 
-		System.out.println(servletResponse);
-
-		class ContentLengthWrapper extends HttpServletResponseWrapper{
-			public ContentLengthWrapper(HttpServletResponse response) {
-				super(response);
-			}
-		};
-
-		ContentLengthWrapper contextLengthWrapper = new ContentLengthWrapper((HttpServletResponse)response);
-
-		chain.doFilter(request, contextLengthWrapper);
-
-		System.out.println("Content-Length: " + contextLengthWrapper.getHeader("Content-Length"));
+		System.out.println(htmlCode);
+		writer.write(htmlCode);
+		writer.close();
+		charResponseWrapper.setContentLength(htmlCode.length());
+		String contentLength = charResponseWrapper.getHeader("Content-Length");
+		System.out.println("Content-Length: " + contentLength);
 
 	}
 
@@ -52,22 +46,17 @@ public class FirstFilter implements Filter {
 	}
 }
 
-class ResponseWrapper extends HttpServletResponseWrapper {
-	final int BUFFER_SIZE = getBufferSize();
-	private StringWriter sw = new StringWriter(BUFFER_SIZE);
-
-	public ResponseWrapper(HttpServletResponse response) {
-		super(response);
-	}
-
-	public PrintWriter getWriter() throws IOException {
-		return new PrintWriter(sw);
-	}
-
-
+class CharResponseWrapper extends HttpServletResponseWrapper {
+	private CharArrayWriter output;
 	public String toString() {
-		return sw.toString();
+		return output.toString();
 	}
-
+	public CharResponseWrapper(HttpServletResponse response){
+		super(response);
+		output = new CharArrayWriter();
+	}
+	public PrintWriter getWriter(){
+		return new PrintWriter(output);
+	}
 
 }
