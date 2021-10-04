@@ -6,19 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class RepositoryPostgres implements Repository {
-    final private String DB_URL;
-    final private String DB_USERNAME;
-    final private String DB_PASSWORD;
-
-    public RepositoryPostgres(String DB_URL, String DB_USERNAME, String DB_PASSWORD) {
-        this.DB_URL = DB_URL;
-        this.DB_USERNAME = DB_USERNAME;
-        this.DB_PASSWORD = DB_PASSWORD;
-    }
+    static final private String DB_URL = "jdbc:postgresql://localhost:5432/person_db";
+    static final private String DB_USERNAME = "timur";
+    static final private String DB_PASSWORD = "";
 
     @Override
-    public void saveToDataBase(String query, String... varargs) {
+    public void saveToDataBase(String... varargs) {
         int lengthStringArgs = varargs.length;
+        String query = "INSERT INTO person (surname, name, patronymic) VALUES (?, ?, ?)";
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
