@@ -1,6 +1,7 @@
 package ru.lanit;
 
-import repository.RepositoryPostgres;
+import ru.lanit.repository.PostgresRepository;
+import ru.lanit.repository.Repository;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ public class ServletPatronymic extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, javax.servlet.ServletException {
 		HttpSession session = request.getSession();
+		Repository repo = new PostgresRepository();
 
 		String patronymic = request.getParameter("patronymic");
 		session.setAttribute("patronymic", patronymic);
@@ -19,8 +21,7 @@ public class ServletPatronymic extends HttpServlet {
 		String name = (String) session.getAttribute("name");
 		String surname = (String) session.getAttribute("surname");
 
-		RepositoryPostgres postgres = new RepositoryPostgres();
-		postgres.saveToDataBase(surname, name, patronymic);
+		repo.save(surname, name, patronymic);
 
 		getServletContext().getRequestDispatcher("/exit.jsp").forward(request, response);
 		
