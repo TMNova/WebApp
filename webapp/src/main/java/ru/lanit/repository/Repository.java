@@ -1,6 +1,8 @@
 package ru.lanit.repository;
 
+import ru.lanit.Person;
+
 public interface Repository {
-    public void save(String surname, String name, String patronymic);
+    public void save(Person person);
 
 }

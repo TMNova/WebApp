@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ServletPatronymic extends HttpServlet {
-	private Repository repo;
+	private Repository repo = new PostgresRepository();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, javax.servlet.ServletException {
 		HttpSession session = request.getSession();
-		repo = new PostgresRepository();
 
 		String patronymic = request.getParameter("patronymic");
 		session.setAttribute("patronymic", patronymic);
 
 		String name = (String) session.getAttribute("name");
 		String surname = (String) session.getAttribute("surname");
+		Person person = new Person(surname, name, patronymic);
 
-		repo.save(surname, name, patronymic);
+		repo.save(person);
 
 		getServletContext().getRequestDispatcher("/exit.jsp").forward(request, response);
 		
