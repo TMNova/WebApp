@@ -25,6 +25,9 @@ public class ServletPatronymic extends HttpServlet {
 		Person person = new Person(surname, name, patronymic);
 
 		repo.save(person);
+		List<Person> persons = repo.getAll();
+
+		session.setAttribute("persons", persons);
 
 		getServletContext().getRequestDispatcher("/exit.jsp").forward(request, response);
 		
