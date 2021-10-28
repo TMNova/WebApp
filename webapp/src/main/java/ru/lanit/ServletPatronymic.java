@@ -1,5 +1,6 @@
 package ru.lanit;
 
+import ru.lanit.repository.HibernatePostgresRepository;
 import ru.lanit.repository.PostgresRepository;
 import ru.lanit.repository.Repository;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 public class ServletPatronymic extends HttpServlet {
 	private Repository repo = new PostgresRepository();
+	private Repository hibernateRepo = new HibernatePostgresRepository();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, javax.servlet.ServletException {
@@ -24,8 +26,8 @@ public class ServletPatronymic extends HttpServlet {
 		String surname = (String) session.getAttribute("surname");
 		Person person = new Person(surname, name, patronymic);
 
-		repo.save(person);
-		List<Person> persons = repo.getAll();
+		hibernateRepo.save(person);
+		List<Person> persons = hibernateRepo.getAll();
 
 		session.setAttribute("persons", persons);
 
