@@ -1,6 +1,8 @@
+/*
 package ru.lanit.repository;
 
-import ru.lanit.Person;
+import ru.lanit.Abstract.Address;
+import ru.lanit.Abstract.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class PostgresRepository implements Repository {
     static final private String DRIVER = "org.postgresql.Driver";
 
     @Override
-    public void save(Person person) {
+    public void save(Person person, Address address) {
         String query = "INSERT INTO person (surname, name, patronymic) VALUES (?, ?, ?)";
         try {
             Class.forName(DRIVER);
@@ -56,3 +58,4 @@ public class PostgresRepository implements Repository {
     }
 
 }
+*/

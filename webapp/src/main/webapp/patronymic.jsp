@@ -2,9 +2,13 @@
 
 <html>
 <body>
-<h3>Введите отчество</h3>
 <form action="servletpatronymic">
+	<p><h3>Введите отчество:</h3></p>
 	<input name="patronymic">
+	<p><h3>Введите город:</h3></p>
+	<input name="city">
+	<p><h3>Введите улицу:</h3></p>
+	<input name="street">
 	<button type="submit">Отправить</button>
 </form>
 </body>

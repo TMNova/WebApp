@@ -1,4 +1,4 @@
-package ru.lanit;
+package ru.lanit.Abstract;
 
 public class Person {
     private String surname;

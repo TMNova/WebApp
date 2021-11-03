@@ -11,6 +11,7 @@
         <property name="show_sql">true</property>
 
         <mapping class="ru.lanit.entity.EntityPerson" />
+        <mapping class="ru.lanit.entity.EntityAddress" />
 
     </session-factory>
 </hibernate-configuration>

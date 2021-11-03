@@ -1,7 +1,9 @@
 package ru.lanit;
 
+import ru.lanit.Abstract.Address;
+import ru.lanit.Abstract.Person;
+import ru.lanit.entity.EntityAddress;
 import ru.lanit.repository.HibernatePostgresRepository;
-import ru.lanit.repository.PostgresRepository;
 import ru.lanit.repository.Repository;
 
 import java.io.IOException;
@@ -12,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ServletPatronymic extends HttpServlet {
-	private Repository repo = new PostgresRepository();
 	private Repository hibernateRepo = new HibernatePostgresRepository();
 
 	@Override
@@ -20,16 +21,20 @@ public class ServletPatronymic extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		String patronymic = request.getParameter("patronymic");
+		String city = request.getParameter("city");
+		String street = request.getParameter("street");
+
 		session.setAttribute("patronymic", patronymic);
 
 		String name = (String) session.getAttribute("name");
 		String surname = (String) session.getAttribute("surname");
 		Person person = new Person(surname, name, patronymic);
+		Address address = new Address(city, street);
 
-		hibernateRepo.save(person);
-		List<Person> persons = hibernateRepo.getAll();
+		hibernateRepo.save(person, address);
+		List<EntityAddress> entAddress = hibernateRepo.getAllAddresses();
 
-		session.setAttribute("persons", persons);
+		session.setAttribute("addresses", entAddress);
 
 		getServletContext().getRequestDispatcher("/exit.jsp").forward(request, response);
 		

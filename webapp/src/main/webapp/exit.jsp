@@ -1,5 +1,5 @@
-<%@ page import="ru.lanit.Person" %>
 <%@ page import="java.util.List" %>
+<%@ page import="ru.lanit.entity.EntityAddress" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html; charset=UTF-8" %>
 
@@ -8,8 +8,8 @@
 <% String name = (String) session.getAttribute("name"); 
 	String surname = (String) session.getAttribute("surname");
 	String patronymic = (String) session.getAttribute("patronymic");
-	List<Person> listOfPersons = (List<Person>) session.getAttribute("persons");
-	session.setAttribute("listPersons", listOfPersons);
+	List<EntityAddress> addresses = (List<EntityAddress>) session.getAttribute("addresses");
+	session.setAttribute("listAddresses", addresses);
 %>
 <p>Фамилия:	<%= surname %> </p>
 <p>Имя:	<%= name %> </p>
@@ -17,16 +17,24 @@
 
 <table>
 	<tr>
-		<th>Surname</th>
-		<th>Name</th>
-		<th>Patronymic</th>
+		<th>id</th>
+		<th>City</th>
+		<th>Street</th>
+		<th>Persons</th>
 	</tr>
 
-	<c:forEach var="person" items="${listPersons}">
+	<c:forEach var="address" items="${listAddresses}" varStatus="count">
 		<tr>
-			<td><c:out value="${person.surname}" /></td>
-			<td><c:out value="${person.name}" /></td>
-			<td><c:out value="${person.patronymic}" /></td>
+			<td><c:out value="${address.id}" /></td>
+			<td><c:out value="${address.city}" /></td>
+			<td><c:out value="${address.street}" /></td>
+			<td><c:forEach var="person" items="${address.personList}" >
+				<c:out value="${person.surname}" /><br>
+				<c:out value="${person.name}" /><br>
+				<c:out value="${person.patronymic}" />
+				<p></p>
+			</c:forEach></td>
+			<p></p>
 		</tr>
 	</c:forEach>
 </table>
