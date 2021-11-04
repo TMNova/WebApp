@@ -57,6 +57,7 @@ public class HibernatePostgresRepository implements Repository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(AddressEntity.class);
         Root<AddressEntity> root = cq.from(AddressEntity.class);
+        root.fetch("personList", JoinType.LEFT);
 
         cq.select(root);
 
@@ -76,7 +77,6 @@ public class HibernatePostgresRepository implements Repository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(PersonEntity.class);
         Root<PersonEntity> root = cq.from(PersonEntity.class);
-        root.fetch("personList", JoinType.LEFT);
 
         cq.select(root);
 
