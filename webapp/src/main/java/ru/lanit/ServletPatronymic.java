@@ -2,7 +2,7 @@ package ru.lanit;
 
 import ru.lanit.Abstract.Address;
 import ru.lanit.Abstract.Person;
-import ru.lanit.entity.EntityAddress;
+import ru.lanit.entity.AddressEntity;
 import ru.lanit.repository.HibernatePostgresRepository;
 import ru.lanit.repository.Repository;
 
@@ -32,7 +32,7 @@ public class ServletPatronymic extends HttpServlet {
 		Address address = new Address(city, street);
 
 		hibernateRepo.save(person, address);
-		List<EntityAddress> entAddress = hibernateRepo.getAllAddresses();
+		List<AddressEntity> entAddress = hibernateRepo.getAllAddresses();
 
 		session.setAttribute("addresses", entAddress);
 

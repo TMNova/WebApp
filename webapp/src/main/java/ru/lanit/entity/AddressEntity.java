@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "address")
-public class EntityAddress implements Serializable {
+public class AddressEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +19,18 @@ public class EntityAddress implements Serializable {
     @Column(name = "street")
     private String street;
 
-    @OneToMany(mappedBy = "address",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<EntityPerson> personList;
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PersonEntity> personList;
 
-    public EntityAddress() {
+    public AddressEntity() {
 
     }
 
-    public List<EntityPerson> getPersonList() {
+    public List<PersonEntity> getPersonList() {
         return personList;
     }
 
-    public void setPersonList(List<EntityPerson> personList) {
+    public void setPersonList(List<PersonEntity> personList) {
         this.personList = personList;
     }
 

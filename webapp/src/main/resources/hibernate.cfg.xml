@@ -10,8 +10,8 @@
         <property name="hibernate.connection.password"></property>
         <property name="show_sql">true</property>
 
-        <mapping class="ru.lanit.entity.EntityPerson" />
-        <mapping class="ru.lanit.entity.EntityAddress" />
+        <mapping class="ru.lanit.entity.PersonEntity" />
+        <mapping class="ru.lanit.entity.AddressEntity" />
 
     </session-factory>
 </hibernate-configuration>

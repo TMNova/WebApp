@@ -4,16 +4,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import ru.lanit.Abstract.Address;
 import ru.lanit.Abstract.Person;
-import ru.lanit.entity.EntityAddress;
-import ru.lanit.entity.EntityPerson;
+import ru.lanit.entity.AddressEntity;
+import ru.lanit.entity.PersonEntity;
 import ru.lanit.entity.HibernateUtil;
-import ru.lanit.util.GeneralUtils;
 
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HibernatePostgresRepository implements Repository {
@@ -28,44 +29,44 @@ public class HibernatePostgresRepository implements Repository {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        EntityPerson entityPerson = new EntityPerson();
-        EntityAddress entityAddress = new EntityAddress();
+        PersonEntity personEntity = new PersonEntity();
+        AddressEntity addressEntity = new AddressEntity();
 
         int addressId = getAddressId(address);
 
         if (addressId != 0) {
-            entityAddress.setId(addressId);
+            addressEntity.setId(addressId);
         }
-        entityAddress.setCity(address.getCity());
-        entityAddress.setStreet(address.getStreet());
+        addressEntity.setCity(address.getCity());
+        addressEntity.setStreet(address.getStreet());
 
-        entityPerson.setSurname(person.getSurname());
-        entityPerson.setName(person.getName());
-        entityPerson.setPatronymic(person.getPatronymic());
-        entityPerson.setAddress(entityAddress);
+        personEntity.setSurname(person.getSurname());
+        personEntity.setName(person.getName());
+        personEntity.setPatronymic(person.getPatronymic());
+        personEntity.setAddress(addressEntity);
 
-        session.save(entityPerson);
+        session.save(personEntity);
 
         session.getTransaction().commit();
     }
 
     @Override
-    public List<EntityAddress> getAllAddresses() {
+    public List<AddressEntity> getAllAddresses() {
         Session session = sessionFactory.openSession();
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(EntityAddress.class);
-        Root<EntityAddress> root = cq.from(EntityAddress.class);
+        CriteriaQuery cq = cb.createQuery(AddressEntity.class);
+        Root<AddressEntity> root = cq.from(AddressEntity.class);
 
         cq.select(root);
 
         Query query = session.createQuery(cq);
 
-        List<EntityAddress> entityAddresses = query.getResultList();
+        List<AddressEntity> addressEntities = query.getResultList();
 
         session.close();
 
-        return entityAddresses;
+        return addressEntities;
     }
 
     @Override
@@ -73,18 +74,19 @@ public class HibernatePostgresRepository implements Repository {
         Session session = sessionFactory.openSession();
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(EntityPerson.class);
-        Root<EntityPerson> root = cq.from(EntityPerson.class);
+        CriteriaQuery cq = cb.createQuery(PersonEntity.class);
+        Root<PersonEntity> root = cq.from(PersonEntity.class);
+        root.fetch("personList", JoinType.LEFT);
 
         cq.select(root);
 
         Query query = session.createQuery(cq);
 
-        List<EntityPerson> entityPersons = query.getResultList();
+        List<PersonEntity> personEntities = query.getResultList();
 
         session.close();
 
-        List<Person> persons = GeneralUtils.toPersonList(entityPersons);
+        List<Person> persons = toPersonList(personEntities);
 
         return persons;
 
@@ -94,18 +96,34 @@ public class HibernatePostgresRepository implements Repository {
         Session session = sessionFactory.openSession();
         int addressId = 0;
 
-        Query queryCity = session.createQuery("from EntityAddress" +
-                " where city = :paramName");
-        queryCity.setParameter("paramName", address.getCity());
-        List<EntityAddress> list = queryCity.getResultList();
+        Query queryCity = session.createQuery("from AddressEntity" +
+                " where city = :paramCity AND street = :paramStreet");
+        queryCity.setParameter("paramCity", address.getCity());
+        queryCity.setParameter("paramStreet", address.getStreet());
+        List<AddressEntity> list = queryCity.getResultList();
 
         if (!(list.isEmpty())) {
-            for(EntityAddress entity : list) {
+            for(AddressEntity entity : list) {
                 if (entity.getStreet().equals(address.getStreet())) addressId = entity.getId();
             }
         }
 
         return addressId;
+    }
+
+    public static List<Person> toPersonList(List<PersonEntity> entityList) {
+        List<Person> personList = new ArrayList<>();
+        for (PersonEntity personEntity : entityList) {
+            String surname = personEntity.getSurname();
+            String name = personEntity.getName();
+            String patronymic = personEntity.getPatronymic();
+
+            Person person = new Person(surname, name, patronymic);
+
+            personList.add(person);
+        }
+
+        return personList;
     }
 
 }

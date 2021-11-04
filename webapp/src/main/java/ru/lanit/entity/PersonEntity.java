@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "person")
-public class EntityPerson implements Serializable {
+public class PersonEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -22,17 +22,17 @@ public class EntityPerson implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
-    private EntityAddress address;
+    private AddressEntity address;
 
-    public EntityPerson() {
+    public PersonEntity() {
 
     }
 
-    public EntityAddress getAddress() {
+    public AddressEntity getAddress() {
         return address;
     }
 
-    public void setAddress(EntityAddress address) {
+    public void setAddress(AddressEntity address) {
         this.address = address;
     }
 
