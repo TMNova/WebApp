@@ -1,4 +1,4 @@
-package ru.lanit.entity;
+package ru.lanit.repository.entity;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="ru.lanit.entity.AddressEntity" %>
+<%@ page import="ru.lanit.repository.dto.Address" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html; charset=UTF-8" %>
 
@@ -8,7 +9,8 @@
 <% String name = (String) session.getAttribute("name"); 
 	String surname = (String) session.getAttribute("surname");
 	String patronymic = (String) session.getAttribute("patronymic");
-	List<AddressEntity> addresses = (List<AddressEntity>) session.getAttribute("addresses");
+	List<Address> addresses = new ArrayList<>();
+	addresses = (List<Address>) session.getAttribute("addresses");
 	session.setAttribute("listAddresses", addresses);
 %>
 <p>Фамилия:	<%= surname %> </p>
@@ -23,7 +25,7 @@
 		<th>Persons</th>
 	</tr>
 
-	<c:forEach var="address" items="${listAddresses}" varStatus="count">
+	<c:forEach var="address" items="${listAddresses}" >
 		<tr>
 			<td><c:out value="${address.id}" /></td>
 			<td><c:out value="${address.city}" /></td>

@@ -2,11 +2,11 @@ package ru.lanit.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.lanit.Abstract.Address;
-import ru.lanit.Abstract.Person;
-import ru.lanit.entity.AddressEntity;
-import ru.lanit.entity.PersonEntity;
-import ru.lanit.entity.HibernateUtil;
+import ru.lanit.repository.dto.Address;
+import ru.lanit.repository.dto.Person;
+import ru.lanit.repository.entity.AddressEntity;
+import ru.lanit.repository.entity.PersonEntity;
+import ru.lanit.repository.entity.HibernateUtil;
 
 
 import javax.persistence.Query;
@@ -51,7 +51,7 @@ public class HibernatePostgresRepository implements Repository {
     }
 
     @Override
-    public List<AddressEntity> getAllAddresses() {
+    public List<Address> getAllAddresses() {
         Session session = sessionFactory.openSession();
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -59,7 +59,7 @@ public class HibernatePostgresRepository implements Repository {
         Root<AddressEntity> root = cq.from(AddressEntity.class);
         root.fetch("personList", JoinType.LEFT);
 
-        cq.select(root);
+        cq.select(root).distinct(true);
 
         Query query = session.createQuery(cq);
 
@@ -67,7 +67,9 @@ public class HibernatePostgresRepository implements Repository {
 
         session.close();
 
-        return addressEntities;
+        List<Address> addresses = toAddressList(addressEntities);
+
+        return addresses;
     }
 
     @Override
@@ -111,7 +113,7 @@ public class HibernatePostgresRepository implements Repository {
         return addressId;
     }
 
-    public static List<Person> toPersonList(List<PersonEntity> entityList) {
+    public List<Person> toPersonList(List<PersonEntity> entityList) {
         List<Person> personList = new ArrayList<>();
         for (PersonEntity personEntity : entityList) {
             String surname = personEntity.getSurname();
@@ -124,6 +126,22 @@ public class HibernatePostgresRepository implements Repository {
         }
 
         return personList;
+    }
+
+    public List<Address> toAddressList(List<AddressEntity> entityList) {
+        List<Address> addressList = new ArrayList<>();
+        for(AddressEntity addressEntity : entityList) {
+            int id = addressEntity.getId();
+            String city = addressEntity.getCity();
+            String street = addressEntity.getStreet();
+            List<Person> personList = toPersonList(addressEntity.getPersonList());
+
+            Address address = new Address(id, city, street, personList);
+
+            addressList.add(address);
+        }
+
+        return addressList;
     }
 
 }

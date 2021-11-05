@@ -1,4 +1,4 @@
-package ru.lanit.entity;
+package ru.lanit.repository.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

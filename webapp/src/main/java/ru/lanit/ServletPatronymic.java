@@ -1,8 +1,7 @@
 package ru.lanit;
 
-import ru.lanit.Abstract.Address;
-import ru.lanit.Abstract.Person;
-import ru.lanit.entity.AddressEntity;
+import ru.lanit.repository.dto.Address;
+import ru.lanit.repository.dto.Person;
 import ru.lanit.repository.HibernatePostgresRepository;
 import ru.lanit.repository.Repository;
 
@@ -32,9 +31,9 @@ public class ServletPatronymic extends HttpServlet {
 		Address address = new Address(city, street);
 
 		hibernateRepo.save(person, address);
-		List<AddressEntity> entAddress = hibernateRepo.getAllAddresses();
+		List<Address> addresses = hibernateRepo.getAllAddresses();
 
-		session.setAttribute("addresses", entAddress);
+		session.setAttribute("addresses", addresses);
 
 		getServletContext().getRequestDispatcher("/exit.jsp").forward(request, response);
 		
