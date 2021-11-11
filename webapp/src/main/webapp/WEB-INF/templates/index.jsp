@@ -2,9 +2,9 @@
 
 <html>
 <body>
-<h3>Введите фамилию</h3>
-<form action="servletsurname">
-	<input name="surname">
+<h3>Введите имя</h3>
+<form action="surname">
+	<input name="name">
 	<button type="submit">Отправить</button>
 </form>
 </body>

@@ -1,5 +1,8 @@
 package ru.lanit.repository.dto;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Person {
 
     private int id;
@@ -13,6 +16,8 @@ public class Person {
         this.name = name;
         this.patronymic = patronymic;
     }
+
+    public Person() {}
 
     public int getId() {
         return id;

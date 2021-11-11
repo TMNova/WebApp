@@ -2,7 +2,7 @@
 
 <html>
 <body>
-<form action="servletpatronymic">
+<form action="/exit">
 	<p><h3>Введите отчество:</h3></p>
 	<input name="patronymic">
 	<p><h3>Введите город:</h3></p>

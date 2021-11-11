@@ -1,7 +1,11 @@
 package ru.lanit.repository.dto;
 
+
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class Address {
 
     private int id;
@@ -19,6 +23,9 @@ public class Address {
         this.city = city;
         this.street = street;
         this.personList = personList;
+    }
+
+    public Address() {
     }
 
     public int getId() {

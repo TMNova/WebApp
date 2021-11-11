@@ -2,12 +2,12 @@ package ru.lanit.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
 import ru.lanit.repository.dto.Address;
 import ru.lanit.repository.dto.Person;
 import ru.lanit.repository.entity.AddressEntity;
 import ru.lanit.repository.entity.PersonEntity;
 import ru.lanit.repository.entity.HibernateUtil;
-
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class HibernatePostgresRepository implements Repository {
     private SessionFactory sessionFactory;
 
