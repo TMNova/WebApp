@@ -12,7 +12,6 @@ import ru.lanit.repository.dto.Person;
 import java.util.List;
 
 @Controller
-@SessionAttributes("person")
 public class MainController {
     @Autowired
     private Repository repo;
