@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.lanit.repository.Repository;
 import ru.lanit.repository.dto.Address;
-import ru.lanit.repository.dto.Person;
+import ru.lanit.repository.dto.SummaryPerson;
 
 import java.util.List;
 
@@ -17,13 +17,10 @@ public class MainController {
     private Repository repo;
 
     @Autowired
-    private Person person;
-
-    @Autowired
-    private Address address;
+    private SummaryPerson person;
 
     @ModelAttribute("person")
-    public Person getPerson() {
+    public SummaryPerson getPerson() {
         return person;
     }
 
@@ -34,14 +31,14 @@ public class MainController {
 
     @RequestMapping("/surname")
     public String surname(@RequestParam(value = "name", required = false) String name,
-                          @ModelAttribute("person") Person person) {
+                          @ModelAttribute("person") SummaryPerson person) {
         person.setName(name);
         return "surname";
     }
 
     @RequestMapping("/surname/patronymic")
     public String patronymic(@RequestParam(value = "surname", required = false) String surname,
-                             @ModelAttribute("person") Person person) {
+                             @ModelAttribute("person") SummaryPerson person) {
         person.setSurname(surname);
         return "patronymic";
     }
@@ -50,17 +47,15 @@ public class MainController {
     public String exit(@RequestParam String patronymic,
                        @RequestParam String street,
                        @RequestParam String city,
-                       Model model, @ModelAttribute("person") Person person) {
-        address.setCity(city);
-        address.setStreet(street);
+                       Model model, @ModelAttribute("person") SummaryPerson person) {
 
         person.setPatronymic(patronymic);
-        person.setAddress(address);
+        person.setCity(city);
+        person.setStreet(street);
 
-        repo.save(person, address);
+        repo.save(person);
         List<Address> listOfAddresses = repo.getAllAddresses();
 
-        model.addAttribute("person", person);
         model.addAttribute("listOfAddresses", listOfAddresses);
 
         return "exit";

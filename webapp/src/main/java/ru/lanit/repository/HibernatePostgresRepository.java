@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 import ru.lanit.repository.dto.Address;
 import ru.lanit.repository.dto.Person;
+import ru.lanit.repository.dto.SummaryPerson;
 import ru.lanit.repository.entity.AddressEntity;
 import ru.lanit.repository.entity.PersonEntity;
 import ru.lanit.repository.entity.HibernateUtil;
@@ -26,20 +27,20 @@ public class HibernatePostgresRepository implements Repository {
     }
 
     @Override
-    public void save(Person person, Address address) {
+    public void save(SummaryPerson person) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
         PersonEntity personEntity = new PersonEntity();
         AddressEntity addressEntity = new AddressEntity();
 
-        int addressId = getAddressId(address);
+        int addressId = getAddressId(new Address(person.getCity(), person.getStreet()));
 
         if (addressId != 0) {
             addressEntity.setId(addressId);
         }
-        addressEntity.setCity(address.getCity());
-        addressEntity.setStreet(address.getStreet());
+        addressEntity.setCity(person.getCity());
+        addressEntity.setStreet(person.getStreet());
 
         personEntity.setSurname(person.getSurname());
         personEntity.setName(person.getName());
@@ -114,7 +115,7 @@ public class HibernatePostgresRepository implements Repository {
         return addressId;
     }
 
-    public List<Person> toPersonList(List<PersonEntity> entityList) {
+    private List<Person> toPersonList(List<PersonEntity> entityList) {
         List<Person> personList = new ArrayList<>();
         for (PersonEntity personEntity : entityList) {
             String surname = personEntity.getSurname();
@@ -129,7 +130,7 @@ public class HibernatePostgresRepository implements Repository {
         return personList;
     }
 
-    public List<Address> toAddressList(List<AddressEntity> entityList) {
+    private List<Address> toAddressList(List<AddressEntity> entityList) {
         List<Address> addressList = new ArrayList<>();
         for(AddressEntity addressEntity : entityList) {
             int id = addressEntity.getId();
