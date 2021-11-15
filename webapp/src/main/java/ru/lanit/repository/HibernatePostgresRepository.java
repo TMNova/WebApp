@@ -2,13 +2,13 @@ package ru.lanit.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.lanit.repository.dto.Address;
 import ru.lanit.repository.dto.Person;
 import ru.lanit.repository.dto.SummaryPerson;
 import ru.lanit.repository.entity.AddressEntity;
 import ru.lanit.repository.entity.PersonEntity;
-import ru.lanit.repository.entity.HibernateUtil;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,11 +20,12 @@ import java.util.List;
 
 @Component
 public class HibernatePostgresRepository implements Repository {
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public HibernatePostgresRepository() {
-        sessionFactory = HibernateUtil.getSessionFactory();
-    }
+//    public HibernatePostgresRepository() {
+//        sessionFactory = HibernateUtil.getSessionFactory();
+//    }
 
     @Override
     public void save(SummaryPerson person) {
