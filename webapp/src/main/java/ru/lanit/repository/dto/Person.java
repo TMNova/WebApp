@@ -19,6 +19,13 @@ public class Person {
 
     public Person() {}
 
+    public Person(String surname, String name, String patronymic, Address address) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.address = address;
+    }
+
     public int getId() {
         return id;
     }

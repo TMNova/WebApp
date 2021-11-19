@@ -1,3 +1,4 @@
+/*
 package ru.lanit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.lanit.repository.Repository;
 import ru.lanit.repository.dto.Address;
-import ru.lanit.repository.dto.SummaryPerson;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public class MainController {
     private Repository repo;
 
     @Autowired
-    private SummaryPerson person;
+    private PersonSummary person;
 
     @ModelAttribute("person")
-    public SummaryPerson getPerson() {
+    public PersonSummary getPerson() {
         return person;
     }
 
@@ -31,14 +31,14 @@ public class MainController {
 
     @RequestMapping("/surname")
     public String surname(@RequestParam(value = "name", required = false) String name,
-                          @ModelAttribute("person") SummaryPerson person) {
+                          @ModelAttribute("person") PersonSummary person) {
         person.setName(name);
         return "surname";
     }
 
     @RequestMapping("/surname/patronymic")
     public String patronymic(@RequestParam(value = "surname", required = false) String surname,
-                             @ModelAttribute("person") SummaryPerson person) {
+                             @ModelAttribute("person") PersonSummary person) {
         person.setSurname(surname);
         return "patronymic";
     }
@@ -47,7 +47,7 @@ public class MainController {
     public String exit(@RequestParam String patronymic,
                        @RequestParam String street,
                        @RequestParam String city,
-                       Model model, @ModelAttribute("person") SummaryPerson person) {
+                       Model model, @ModelAttribute("person") PersonSummary person) {
 
         person.setPatronymic(patronymic);
         person.setCity(city);
@@ -62,3 +62,4 @@ public class MainController {
     }
 
 }
+*/

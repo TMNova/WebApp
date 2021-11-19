@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.lanit.repository.dto.Address;
 import ru.lanit.repository.dto.Person;
-import ru.lanit.repository.dto.SummaryPerson;
+import ru.lanit.PersonSummary;
 import ru.lanit.repository.entity.AddressEntity;
 import ru.lanit.repository.entity.PersonEntity;
 
@@ -28,7 +28,7 @@ public class HibernatePostgresRepository implements Repository {
 //    }
 
     @Override
-    public void save(SummaryPerson person) {
+    public void save(PersonSummary person) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
@@ -82,6 +82,7 @@ public class HibernatePostgresRepository implements Repository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(PersonEntity.class);
         Root<PersonEntity> root = cq.from(PersonEntity.class);
+        root.fetch("address", JoinType.LEFT);
 
         cq.select(root);
 
@@ -119,11 +120,15 @@ public class HibernatePostgresRepository implements Repository {
     private List<Person> toPersonList(List<PersonEntity> entityList) {
         List<Person> personList = new ArrayList<>();
         for (PersonEntity personEntity : entityList) {
+            Address address = new Address();
+
             String surname = personEntity.getSurname();
             String name = personEntity.getName();
             String patronymic = personEntity.getPatronymic();
+            address.setCity(personEntity.getAddress().getCity());
+            address.setStreet(personEntity.getAddress().getStreet());
 
-            Person person = new Person(surname, name, patronymic);
+            Person person = new Person(surname, name, patronymic, address);
 
             personList.add(person);
         }
