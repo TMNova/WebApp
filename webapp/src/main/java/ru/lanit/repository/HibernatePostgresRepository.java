@@ -23,10 +23,6 @@ public class HibernatePostgresRepository implements Repository {
     @Autowired
     private SessionFactory sessionFactory;
 
-//    public HibernatePostgresRepository() {
-//        sessionFactory = HibernateUtil.getSessionFactory();
-//    }
-
     @Override
     public void save(PersonSummary person) {
         Session session = sessionFactory.openSession();
